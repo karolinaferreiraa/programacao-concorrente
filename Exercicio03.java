@@ -9,7 +9,7 @@ public class Exercicio03 {
         Random random = new Random();
 
         for (int i = 0; i < numeros.length; i++) {
-            numeros[i] = (short) random.nextInt(1, Short.MAX_VALUE);
+            numeros[i] = (short) random.nextInt(Short.MAX_VALUE);
         }
 
         long inicio = System.currentTimeMillis();
@@ -65,7 +65,13 @@ public class Exercicio03 {
 
         for (int i = 0; i < numThreads; i++) {
 
-            int fimFaixa = inicioFaixa + faixa;
+            int fimFaixa;
+
+            if (i == numThreads - 1) {
+                fimFaixa = numeros.length;
+            } else {
+                fimFaixa = inicioFaixa + faixa;
+            }
 
             threads[i] = new SomaThread(numeros, inicioFaixa, fimFaixa);
             threads[i].setName("Thread-" + i);
