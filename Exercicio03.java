@@ -1,6 +1,5 @@
 import java.util.Random;
 
-
 public class Exercicio03 {
 
     public static void main(String[] args) throws InterruptedException {
@@ -90,6 +89,74 @@ public class Exercicio03 {
         tempo = System.currentTimeMillis() - inicio;
 
         System.out.println("\nSoma com 100 Threads: " + soma);
+        System.out.println("Tempo: " + tempo + " ms");
+
+        inicio = System.currentTimeMillis();
+
+        numThreads = 10;
+        Thread[] virtuais = new Thread[numThreads];
+        SomaThread[] tarefas = new SomaThread[numThreads];
+        faixa = numeros.length / numThreads;
+
+        inicioFaixa = 0;
+
+        for (int i = 0; i < numThreads; i++) {
+
+            int fimFaixa = inicioFaixa + faixa;
+
+            tarefas[i] = new SomaThread(numeros, inicioFaixa, fimFaixa);
+            virtuais[i] = Thread.ofVirtual().start(tarefas[i]);
+
+            inicioFaixa = fimFaixa;
+        }
+
+        soma = 0;
+
+        for (int i = 0; i < numThreads; i++) {
+            virtuais[i].join();
+            soma += tarefas[i].getSoma();
+        }
+
+        tempo = System.currentTimeMillis() - inicio;
+
+        System.out.println("\nSoma com 10 Threads Virtuais: " + soma);
+        System.out.println("Tempo: " + tempo + " ms");
+
+        inicio = System.currentTimeMillis();
+
+        numThreads = 100;
+        virtuais = new Thread[numThreads];
+        tarefas = new SomaThread[numThreads];
+        faixa = numeros.length / numThreads;
+
+        inicioFaixa = 0;
+
+        for (int i = 0; i < numThreads; i++) {
+
+            int fimFaixa;
+
+            if (i == numThreads - 1) {
+                fimFaixa = numeros.length;
+            } else {
+                fimFaixa = inicioFaixa + faixa;
+            }
+
+            tarefas[i] = new SomaThread(numeros, inicioFaixa, fimFaixa);
+            virtuais[i] = Thread.ofVirtual().start(tarefas[i]);
+
+            inicioFaixa = fimFaixa;
+        }
+
+        soma = 0;
+
+        for (int i = 0; i < numThreads; i++) {
+            virtuais[i].join();
+            soma += tarefas[i].getSoma();
+        }
+
+        tempo = System.currentTimeMillis() - inicio;
+
+        System.out.println("\nSoma com 100 Threads Virtuais: " + soma);
         System.out.println("Tempo: " + tempo + " ms");
     }
 }
