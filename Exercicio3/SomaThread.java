@@ -1,3 +1,4 @@
+package Exercicio3;
 class SomaThread extends Thread {
 
     private short[] numeros;

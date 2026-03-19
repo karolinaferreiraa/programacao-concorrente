@@ -1,3 +1,4 @@
+package Exercicio3;
 import java.util.Random;
 
 public class Exercicio03 {
